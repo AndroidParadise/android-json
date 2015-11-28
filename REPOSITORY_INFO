@@ -1,0 +1,10 @@
+git clone --mirror https://android.googlesource.com/platform/libcore .git
+git config --bool core.bare false         
+git reset --hard
+REM for /F %r in ('git branch') do (git filter-branch -f --prune-empty --subdirectory-filter json %r)
+for /F %r in ('git branch') do (git push --set-upstream origin %r)
+git subtree split -P json -b json-only
+
+mkdir android-json
+cd android-json
+git pull ..\android-platform-libcore json-only
